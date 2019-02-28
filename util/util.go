@@ -64,6 +64,14 @@ func init() {
   Return:
 	- string: node.exe version, e.g. 5.10.0
 	- error
+*/GetNodeVer gets Node.js version, usage exec.Command()
+
+  Param:
+	- path:   node.exe path, e.g. x:\xxx\xxx
+
+  Return:
+	- string: node.exe version, e.g. 5.10.0
+	- error
 */
 func GetNodeVer(path string) (string, error) {
 	FormatPath(&path)
@@ -76,6 +84,14 @@ func GetNodeVer(path string) (string, error) {
 
 /*
   Verify Node.js version format.
+  Node.js version format must be http://semver.org/
+
+  Param:
+	- version: Node.js version
+
+  Return:
+	- bool:    true or false
+*/Verify Node.js version format.
   Node.js version format must be http://semver.org/
 
   Param:
@@ -97,6 +113,14 @@ func VerifyNodeVer(version string) bool {
 
 /*
   Format Node.js version
+  x.xx.xx conver to float64
+
+  Param:
+	- version: string, e.g. "5.10.0"
+
+  Return:
+	- version: float64, e.g. 0.510
+*/Format Node.js version
   x.xx.xx conver to float64
 
   Param:
@@ -126,6 +150,21 @@ func FormatNodeVer(version string) float64 {
 
 /*
  Format wildcard node version
+
+ Param:
+	- version: Node.js version, e.g. "5.10.0"
+		- `*.*.*`      - wildcard( include x|X )
+		- `1.*.*`      - wildcard
+		- `0.10.*`     - wildcard
+		- `5.9.0`      - {num}.{num}.{num}
+		- `/<regexp>/` - regexp
+		- latest       - trans to true version
+	- url: Node.js latest version url
+
+ Return:
+	- regexp
+	- error
+*/Format wildcard node version
 
  Param:
 	- version: Node.js version, e.g. "5.10.0"
@@ -177,6 +216,12 @@ func FormatWildcard(version, url string) (*regexp.Regexp, error) {
 	- latest  : setting string, pointer
 	- value   : latest version, e.g. x.xx.xx
 	- isPrint : true( print console ) false( not print )
+*/Conver latest to x.xx.xx( include unknown)
+
+ Param:
+	- latest  : setting string, pointer
+	- value   : latest version, e.g. x.xx.xx
+	- isPrint : true( print console ) false( not print )
 */
 func FormatLatVer(latest *string, value string, print bool) {
 	if *latest == LATEST {
@@ -189,6 +234,17 @@ func FormatLatVer(latest *string, value string, print bool) {
 
 /*
  Get Node.js version level( 0 ~ 4 )
+
+ Param:
+	- ver: Node.js float64 version, usage FormatNodeVer() return.
+
+ Return:
+	- 0: no exec
+	- 1: only x86 exec
+	- 2: x86 and x64 exec, folder is "x64/" and <root>
+	- 3: io.js exec, folder is "win-x64/" and "win-x86/"
+	- 4: x86 and x64 exec, folder is "win-x64/" and "win-x86/"
+*/GetNodeVerLev gets Node.js version level( 0 ~ 4 )
 
  Param:
 	- ver: Node.js float64 version, usage FormatNodeVer() return.
@@ -218,6 +274,20 @@ func GetNodeVerLev(ver float64) (level int) {
 
 /*
  Parse arguments return version, io, suffix and arch
+
+ Param:
+ 	s support format: <version>-<arch>, e.g.
+	- x.xx.xx
+ 	- x.xx.xx-x86|x64
+
+ Return:
+	- ver    : x.xx.xx
+	- iojs   : true  and false
+	- arch   : "386" and "amd64"
+	- suffix : "x86" and "x64"  and ""
+	- err    : includ, "1" "2", "3", "4", "5"
+
+*/Parse arguments return version, io, suffix and arch
 
  Param:
  	s support format: <version>-<arch>, e.g.
@@ -316,6 +386,13 @@ func ParseNodeVer(s string) (ver string, iojs bool, arch, suffix string, err err
 
  Return:
 	- latest: remote Node.js latest version
+*/GetLatVer gets remote Node.js latest version from url
+
+ Param:
+	- url:    remote Node.js url, e.g. http://npm.taobao.org/mirrors/node
+
+ Return:
+	- latest: remote Node.js latest version
 */
 func GetLatVer(url string) string {
 
@@ -346,6 +423,17 @@ func GetLatVer(url string) string {
 
 /*
  Return node.exe real url, e.g.
+ 	- http://npm.taobao.org/mirrors/node/v5.9.0/win-x64/node.exe
+ 	- http://npm.taobao.org/mirrors/iojs/v1.0.0/win-x86/iojs.exe
+
+ Param:
+	- url:     remote Node.js url, e.g. http://npm.taobao.org/mirrors/node
+	- version: Node.js version
+	- arch:    remote node.exe arch, include: "amd64" and "386"
+
+ Return:
+	- url:     remote node.exe url, e.g. http://npm.taobao.org/mirrors/node/v5.9.0/win-x64/node.exe
+*/GetRemoteNodePath returns node.exe real url, e.g.
  	- http://npm.taobao.org/mirrors/node/v5.9.0/win-x64/node.exe
  	- http://npm.taobao.org/mirrors/iojs/v1.0.0/win-x86/iojs.exe
 
@@ -389,6 +477,15 @@ func GetRemoteNodePath(url, version, arch string) (string, error) {
 
 /*
  Get node.exe binary arch
+
+ Param:
+	- path:   node.exe path
+
+ Return:
+	- string: arch, inlcude: 'x86' 'x64'
+	- error
+
+*/Arch gets node.exe binary arch
 
  Param:
 	- path:   node.exe path
@@ -443,6 +540,15 @@ func Arch(path string) (string, error) {
  Return:
  	- env: GNVM_SESSION_NODE_HOME value, is a path
  	- bool: true( exist ) false( not exist )
+*/IsSessionEnv returns session environment variable
+
+ Param:
+ 	- command: e.g. 'gnvm use', 'gnvm install'
+ 	- isPrint: true( print waring message ) false( not print )
+
+ Return:
+ 	- env: GNVM_SESSION_NODE_HOME value, is a path
+ 	- bool: true( exist ) false( not exist )
 */
 func IsSessionEnv(command string, isPrint bool) (string, bool) {
 	env := os.Getenv("GNVM_SESSION_NODE_HOME")
@@ -465,6 +571,14 @@ func IsSessionEnv(command string, isPrint bool) (string, bool) {
 
  Return:
  	- value: lowercase value
+*/Ignore key case and return lowercase value
+
+ Param:
+ 	- key:   e.g. 'XXXXX'
+ 	- value: e.g. 'xxxxx'
+
+ Return:
+ 	- value: lowercase value
 */
 func EqualAbs(key, value string) string {
 	if strings.EqualFold(value, key) && value != key {
@@ -476,6 +590,10 @@ func EqualAbs(key, value string) string {
 
 /*
  Vaild Path, e.g x:\aa\bb\cc to x:\aa\bb\cc\
+
+ Param:
+ 	- path: format x:\aa\bb\cc to x:\aa\bb\cc\
+*/Vaild Path, e.g x:\aa\bb\cc to x:\aa\bb\cc\
 
  Param:
  	- path: format x:\aa\bb\cc to x:\aa\bb\cc\
@@ -526,6 +644,14 @@ func Copy(src, dst, name string) (err error) {
 
 /*
  Judge path( folder ) or file exist
+
+ Param:
+    - paths: multi valid path e.g. "/gnvm/node_modules", "npm", "bin", "npm.cmd"
+
+ Return:
+    - true : exist
+    - false: no exit
+*/Judge path( folder ) or file exist
 
  Param:
     - paths: multi valid path e.g. "/gnvm/node_modules", "npm", "bin", "npm.cmd"

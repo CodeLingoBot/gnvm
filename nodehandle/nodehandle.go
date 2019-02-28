@@ -121,6 +121,15 @@ func Use(newer string) bool {
  Return:
  	- code: dl[0].Code, usage 'gnvm update latest'
 
+*/Install node
+
+ Param:
+ 	- args  : install Node.js versions, include: x.xx.xx latest x.xx.xx-io-x86 x.xx.xx-x86
+ 	- global: when global == true, call Use func.
+
+ Return:
+ 	- code: dl[0].Code, usage 'gnvm update latest'
+
 */
 func InstallNode(args []string, global bool) int {
 
@@ -402,6 +411,11 @@ func Search(s string) {
  Param:
  	- isPrint: when isPrint == true, print console
 
+*/Print current local Node.js version list
+
+ Param:
+ 	- isPrint: when isPrint == true, print console
+
 */
 func LS(isPrint bool) ([]string, error) {
 
@@ -483,6 +497,12 @@ func LS(isPrint bool) ([]string, error) {
  	- limit: print max line
  	- io:    when io == true, print iojs
 
+*/Print remote Node.js version list
+
+ Param:
+ 	- limit: print max line
+ 	- io:    when io == true, print iojs
+
 */
 func LsRemote(limit int, io bool) {
 	// set url
@@ -526,6 +546,11 @@ func LsRemote(limit int, io bool) {
 
 /*
  Show local / global Node.js version
+
+ Param:
+ 	- args:   include: latest global
+
+*/Show local / global Node.js version
 
  Param:
  	- args:   include: latest global
@@ -642,6 +667,11 @@ func NodeVersion(args []string) {
 
 /*
  Print gnvm.exe version
+
+ Param:
+ 	- remote: when remote == true, print CHANGELOG
+
+*/Print gnvm.exe version
 
  Param:
  	- remote: when remote == true, print CHANGELOG

@@ -152,6 +152,13 @@ var GNS_HOME = util.GlobalNodePath + util.DIVIDE + "gns.cmd"
  Param:
  	- action: olny support 'start' and 'close'
 
+*/Regedit
+
+ Param:
+ 	- action: olny support 'start' and 'close'
+
+*/
+
 */
 func Run(action string) {
 

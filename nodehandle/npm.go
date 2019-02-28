@@ -57,6 +57,7 @@ var npm = new(NPMange)
 
 /*
  Create NPMange
+*/Create NPMange
 */
 func (this *NPMange) New() *NPMange {
 	this.root = config.GetConfig(config.NODEROOT)
@@ -70,6 +71,7 @@ func (this *NPMange) New() *NPMange {
 
 /*
  Set zip info
+*/Set zip info
 */
 func (this *NPMange) SetZip(zip string) {
 	this.zipname = zip
@@ -78,6 +80,7 @@ func (this *NPMange) SetZip(zip string) {
 
 /*
  Custom Print
+*/Custom Print
 */
 func (this *NPMange) String() string {
 	s := fmt.Sprintf("root     = %v\n", this.root)
@@ -94,6 +97,7 @@ func (this *NPMange) String() string {
 
 /*
  Create node_modules folder
+*/Create node_modules folder
 */
 func (this *NPMange) CreateModules() {
 	if !util.IsDirExist(this.modules) {
@@ -183,6 +187,8 @@ func (this *NPMange) Unzip() (int, error) {
 /*
  Rename <root>\node_modules\folder to <root>\node_modules\npm
  Copy <root>\node_modules\npm\bin\ npm and npm.cmd to <root>\
+*/Rename <root>\node_modules\folder to <root>\node_modules\npm
+ Copy <root>\node_modules\npm\bin\ npm and npm.cmd to <root>\
 */
 func (this *NPMange) Install() error {
 	if err := os.Rename(this.modules+util.DIVIDE+this.ziproot, this.npmpath); err != nil {
@@ -210,6 +216,15 @@ func (this *NPMange) Install() error {
         - <root>/npm.cmd
         - <root>/<npm.zip>
 
+*/Clean removes file
+
+ Param:
+    - path: olny clude path
+        - <root>/node_modules/npm
+        - <root>/npm
+        - <root>/npm.cmd
+        - <root>/<npm.zip>
+
 */
 func (this *NPMange) Clean(path string) error {
 	if util.IsDirExist(path) {
@@ -227,6 +242,11 @@ func (this *NPMange) Clean(path string) error {
  Return:
     - error
 
+*/CleanAll removes <root>/node_modules/npm, <root>/npm, <root>/npm.cmd
+
+ Return:
+    - error
+
 */
 func (this *NPMange) CleanAll() error {
 	paths := [3]string{this.npmpath, this.root + util.DIVIDE + this.command1, this.root + util.DIVIDE + this.command2}
@@ -240,6 +260,7 @@ func (this *NPMange) CleanAll() error {
 
 /*
  Install NPM
+*/Install NPM
 */
 func InstallNPM(version string) {
 	// try catch
@@ -280,6 +301,7 @@ func InstallNPM(version string) {
 
 /*
  Uninstall NPM
+*/Uninstall NPM
 */
 func UninstallNPM() {
 	if getLocalNPMVer() == util.UNKNOWN {

@@ -128,6 +128,12 @@ func readConfig() {
  	- key:   config property, include: registry noderoot latestversion globalversion
  	- value: config property value
 
+*/SetConfig writes config property value from .gnvmrc file
+
+ Param:
+ 	- key:   config property, include: registry noderoot latestversion globalversion
+ 	- value: config property value
+
 */
 func SetConfig(key string, value interface{}) string {
 	if key == "registry" {
@@ -170,6 +176,14 @@ func SetConfig(key string, value interface{}) string {
  Return:
  	- value: config property value
 
+*/GetConfig reads config property value from .gnvmrc file
+
+ Param:
+ 	- key:   config property, include: registry noderoot latestversion globalversion
+
+ Return:
+ 	- value: config property value
+
 */
 func GetConfig(key string) string {
 	value, err := config.GetString(key)
@@ -181,6 +195,7 @@ func GetConfig(key string) string {
 
 /*
  Init config property value from .gnvmrc file
+*/Init config property value from .gnvmrc file
 */
 func ReSetConfig() {
 	if newValue := SetConfig(REGISTRY, util.ORIGIN_DEFAULT); newValue != "" {
@@ -209,6 +224,7 @@ func ReSetConfig() {
 
 /*
  Print all config property value from .gnvmrc file
+*/Print all config property value from .gnvmrc file
 */
 func List() {
 	P(NOTICE, "config file path %v \n", configPath)
@@ -232,6 +248,14 @@ func List() {
 
 /*
  Get io.js url
+
+ Param:
+ 	- url:   config property, include: registry noderoot latestversion globalversion
+
+ Return:
+ 	- value: config property value
+
+*/GetIOURL gets io.js url
 
  Param:
  	- url:   config property, include: registry noderoot latestversion globalversion

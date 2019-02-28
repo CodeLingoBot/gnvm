@@ -34,6 +34,13 @@ func init() {
  Param:
  	- s: olny support 'noderoot'
 
+*/Regedit
+
+ Param:
+ 	- s: olny support 'noderoot'
+
+*/
+
 */
 func Reg(s string) {
 	prompt := "n"

@@ -58,6 +58,23 @@ type (
         - -3: create json error
         - -4: parse json error
 
+*/Create nodist( map[string]NodeDetail )
+
+ Param:
+    - url:    index.json url, e.g. http://npm.taobao.org/mirrors/node/index.json
+    - filter: regexp when regexp == nil, filter all NodeDetail
+
+ Return:
+    - nodist: nodedetail collection
+    - error:  error
+    - code:   error flag
+
+      Code:
+        - -1: get url error
+        - -2: read res.body error
+        - -3: create json error
+        - -4: parse json error
+
 */
 func New(url string, filter *regexp.Regexp) (*Nodist, error, int) {
 	code, res, err := curl.Get(url)
@@ -115,6 +132,16 @@ func New(url string, filter *regexp.Regexp) (*Nodist, error, int) {
     - *NodeDetail: nodedetail struct
     - error
 
+*/Find NodeDetail by node version
+
+ Param:
+    - url: index.json url, e.g. http://npm.taobao.org/mirrors/node/index.json
+    - ver: node version. e.g. 5.9.0
+
+ Return:
+    - *NodeDetail: nodedetail struct
+    - error
+
 */
 func FindNodeDetailByVer(url, ver string) (*NodeDetail, error) {
 	filter, err := util.FormatWildcard(ver, url)
@@ -134,6 +161,11 @@ func FindNodeDetailByVer(url, ver string) (*NodeDetail, error) {
 
 /*
  Print NodeDetail collection
+
+ Param:
+    - limit: print lines, when limit == 0, print all nodedetail
+
+*/Print NodeDetail collection
 
  Param:
     - limit: print lines, when limit == 0, print all nodedetail
